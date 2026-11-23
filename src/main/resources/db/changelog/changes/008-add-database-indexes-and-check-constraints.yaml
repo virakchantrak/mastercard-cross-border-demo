@@ -62,27 +62,13 @@ databaseChangeLog:
                   name: status
 
         # Monetary value integrity
-        - addCheckConstraint:
-            tableName: quotes
-            constraintName: chk_quotes_source_amount_positive
-            checkConstraint: source_amount > 0
-
-        - addCheckConstraint:
-            tableName: quotes
-            constraintName: chk_quotes_target_amount_positive
-            checkConstraint: target_amount > 0
-
-        - addCheckConstraint:
-            tableName: quotes
-            constraintName: chk_quotes_exchange_rate_positive
-            checkConstraint: exchange_rate > 0
-
-        - addCheckConstraint:
-            tableName: quotes
-            constraintName: chk_quotes_fee_non_negative
-            checkConstraint: fee >= 0
-
-        - addCheckConstraint:
-            tableName: payments
-            constraintName: chk_payments_amount_positive
-            checkConstraint: amount > 0
+        - sql:
+            sql: ALTER TABLE quotes ADD CONSTRAINT chk_quotes_source_amount_positive CHECK (source_amount > 0)
+        - sql:
+            sql: ALTER TABLE quotes ADD CONSTRAINT chk_quotes_target_amount_positive CHECK (target_amount > 0)
+        - sql:
+            sql: ALTER TABLE quotes ADD CONSTRAINT chk_quotes_exchange_rate_positive CHECK (exchange_rate > 0)
+        - sql:
+            sql: ALTER TABLE quotes ADD CONSTRAINT chk_quotes_fee_non_negative CHECK (fee >= 0)
+        - sql:
+            sql: ALTER TABLE payments ADD CONSTRAINT chk_payments_amount_positive CHECK (amount > 0)
