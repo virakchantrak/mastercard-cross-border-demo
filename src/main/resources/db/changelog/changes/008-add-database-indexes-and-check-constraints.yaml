@@ -1,0 +1,88 @@
+databaseChangeLog:
+  - changeSet:
+      id: 008-add-database-indexes-and-check-constraints
+      author: virak
+      changes:
+        # Quotes lookup and expiry queries
+        - createIndex:
+            tableName: quotes
+            indexName: idx_quotes_sender_id
+            columns:
+              - column:
+                  name: sender_id
+
+        - createIndex:
+            tableName: quotes
+            indexName: idx_quotes_recipient_id
+            columns:
+              - column:
+                  name: recipient_id
+
+        - createIndex:
+            tableName: quotes
+            indexName: idx_quotes_status
+            columns:
+              - column:
+                  name: status
+
+        - createIndex:
+            tableName: quotes
+            indexName: idx_quotes_expires_at
+            columns:
+              - column:
+                  name: expires_at
+
+        # Payments lookup and status queries
+        - createIndex:
+            tableName: payments
+            indexName: idx_payments_sender_id
+            columns:
+              - column:
+                  name: sender_id
+
+        - createIndex:
+            tableName: payments
+            indexName: idx_payments_recipient_id
+            columns:
+              - column:
+                  name: recipient_id
+
+        - createIndex:
+            tableName: payments
+            indexName: idx_payments_bank_account_id
+            columns:
+              - column:
+                  name: bank_account_id
+
+        - createIndex:
+            tableName: payments
+            indexName: idx_payments_status
+            columns:
+              - column:
+                  name: status
+
+        # Monetary value integrity
+        - addCheckConstraint:
+            tableName: quotes
+            constraintName: chk_quotes_source_amount_positive
+            checkConstraint: source_amount > 0
+
+        - addCheckConstraint:
+            tableName: quotes
+            constraintName: chk_quotes_target_amount_positive
+            checkConstraint: target_amount > 0
+
+        - addCheckConstraint:
+            tableName: quotes
+            constraintName: chk_quotes_exchange_rate_positive
+            checkConstraint: exchange_rate > 0
+
+        - addCheckConstraint:
+            tableName: quotes
+            constraintName: chk_quotes_fee_non_negative
+            checkConstraint: fee >= 0
+
+        - addCheckConstraint:
+            tableName: payments
+            constraintName: chk_payments_amount_positive
+            checkConstraint: amount > 0
