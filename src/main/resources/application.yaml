@@ -1,0 +1,28 @@
+
+spring:
+  application:
+    name: mastercard-cross-border-demo
+
+  profiles:
+    active: dev
+
+server:
+  port: 8080
+
+  servlet:
+    context-path: /api
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  level:
+    root: INFO
+    com.virakchantrak.mastercard_cross_border_demo: DEBUG

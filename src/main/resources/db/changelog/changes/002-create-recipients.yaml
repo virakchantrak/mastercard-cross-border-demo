@@ -1,0 +1,56 @@
+databaseChangeLog:
+  - changeSet:
+      id: 002-create-recipients
+      author: virak
+      changes:
+        - createTable:
+            tableName: recipients
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: sender_id
+                  type: UUID
+                  constraints:
+                    nullable: false
+              - column:
+                  name: full_name
+                  type: VARCHAR(150)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: phone
+                  type: VARCHAR(30)
+              - column:
+                  name: country_code
+                  type: VARCHAR(3)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated_at
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+
+        - addForeignKeyConstraint:
+            baseTableName: recipients
+            baseColumnNames: sender_id
+            referencedTableName: senders
+            referencedColumnNames: id
+            constraintName: fk_recipients_sender
+
+        - createIndex:
+            tableName: recipients
+            indexName: idx_recipients_sender_id
+            columns:
+              - column:
+                  name: sender_id

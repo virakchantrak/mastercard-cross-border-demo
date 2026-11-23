@@ -1,0 +1,14 @@
+databaseChangeLog:
+  - changeSet:
+      id: 007-add-mastercard-quote-references
+      author: virak
+      changes:
+        - addColumn:
+            tableName: quotes
+            columns:
+              - column:
+                  name: transaction_reference
+                  type: varchar(255)
+              - column:
+                  name: proposal_id
+                  type: varchar(255)

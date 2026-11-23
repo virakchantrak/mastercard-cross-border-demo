@@ -1,0 +1,57 @@
+spring:
+  config:
+    activate:
+      on-profile: dev
+    import:
+      - optional:file:.env[.properties]
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/mastercard_db
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  jackson:
+    property-naming-strategy: SNAKE_CASE
+
+mastercard:
+  api:
+    base_url: https://sandbox.api.mastercard.com
+    partner_id: ${MASTERCARD_PARTNER_ID}
+
+    encryption:
+      enabled: true
+      certificate_path: ${MASTERCARD_ENCRYPTION_CERTIFICATE_PATH}
+      fingerprint: ${MASTERCARD_ENCRYPTION_FINGERPRINT}
+
+    decryption:
+      key_store_path: ${MASTERCARD_DECRYPTION_KEY_PATH}
+      key_alias: ${MASTERCARD_DECRYPTION_KEY_ALIAS}
+      key_store_password: ${MASTERCARD_DECRYPTION_KEY_PASSWORD}
+
+  oauth:
+    consumer_key: ${MASTERCARD_CONSUMER_KEY}
+    signing_key_path: ${MASTERCARD_SIGNING_KEY_PATH}
+    key_alias: ${MASTERCARD_KEY_ALIAS}
+    keystore_password: ${MASTERCARD_KEYSTORE_PASSWORD}
+
+logging:
+  level:
+    root: INFO
+    org.springframework.web: INFO
+    org.hibernate.SQL: DEBUG
+    liquibase: DEBUG
+    org.springframework.boot.autoconfigure.liquibase: DEBUG
+    org.springframework.boot.liquibase: DEBUG

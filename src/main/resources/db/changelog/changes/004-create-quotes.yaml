@@ -1,0 +1,83 @@
+databaseChangeLog:
+  - changeSet:
+      id: 004-create-quotes
+      author: virak
+      changes:
+        - createTable:
+            tableName: quotes
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: sender_id
+                  type: UUID
+                  constraints:
+                    nullable: false
+              - column:
+                  name: recipient_id
+                  type: UUID
+                  constraints:
+                    nullable: false
+              - column:
+                  name: source_currency
+                  type: VARCHAR(3)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: target_currency
+                  type: VARCHAR(3)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: source_amount
+                  type: NUMERIC(19,4)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: target_amount
+                  type: NUMERIC(19,4)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: exchange_rate
+                  type: NUMERIC(19,8)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: fee
+                  type: NUMERIC(19,4)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: status
+                  type: VARCHAR(30)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: expires_at
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+
+        - addForeignKeyConstraint:
+            baseTableName: quotes
+            baseColumnNames: sender_id
+            referencedTableName: senders
+            referencedColumnNames: id
+            constraintName: fk_quotes_sender
+
+        - addForeignKeyConstraint:
+            baseTableName: quotes
+            baseColumnNames: recipient_id
+            referencedTableName: recipients
+            referencedColumnNames: id
+            constraintName: fk_quotes_recipient
